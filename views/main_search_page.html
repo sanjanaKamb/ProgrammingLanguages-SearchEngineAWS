@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QueryMaster Search</title>
+    <style type = "text/css">
+        .buttonstyle, .buttonstyle input, .buttonstyle a{
+            font-weight: bold;
+            color: #ffffff;
+            height: 30px;
+            width: 80px;
+            padding:5px 15px;
+            background:#000000;
+            border:0 none;
+            cursor:pointer;
+            -webkit-border-radius: 5px;
+            border-radius: 5px;
+        }
+        .tablestyle, .tablestyle th{
+            padding-bottom: 10px;
+        }
+
+        .tablestyle{
+            padding-left: 40px;
+            width: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    %if user_email=="":
+        <div align = "right">
+            <a href=signIn>  <button class="buttonstyle" type="'button">Sign In</button></a>
+        </div>
+    %end
+    %if user_email!="":
+        <div align = "right">
+            <table rowspan = "1">
+                <tr>
+                    <td>
+                        <div style = "padding-top: 5px;">Signed in as: {{user_email}}</div>
+                    </td>
+                    <td>
+                        <a href=signOut>  <button style = "width: 100px;" class="buttonstyle" type="'button">Sign out</button></a>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    %end
+    <img align = "center" src="/static/QueryMaster-logo4.jpg" alt="Search Logo" title = "Awesome Search Engine's Awesome Logo!" style="display: block; margin-left: auto; margin-right: auto; padding-top: 5%;">
+    <div style = "padding-top: 5px; font-size: 25px; text-align: center;">Please enter your query below:</div>
+    <form style="text-align: center; padding-top: 10px; padding-bottom: 70px;" action="/results" method="get">
+        <input style = "height: 30px; width: 400px;" name="keywords" type="text" id="search_box"/>
+        <input class = "buttonstyle" value="Search" type="submit"/>
+    </form>
+    <div align = "center" style = "width: 800px; margin: auto auto;">
+        <table align = "left" class = "tablestyle" id="history">
+        %if user_email!="" and most_recent[user_email]:
+            <th align = "center"><font size = 5>User Search History:</font></th>
+        %for i in list(reversed(most_recent[user_email]))[:15]:
+	        <tr style = "text-align: center;"><td>{{i}}</td></tr>
+        %end
+        %end
+        </table>
+        <table align = "right" class = "tablestyle" id="results">
+        %if result_words:
+            <th><font size = 5>Query Results:</font></th>
+            <tr><th style = "text-align: left;">Keywords</th><th style = "text-align: left;">Count</th>
+        %end
+        %for i in result_words:
+            <tr><td>{{i[0]}}</td>
+            <td>{{str(i[1])}}</td></tr>
+        %end
+        </table>
+    </div>
+
+    <!-- load scripts last for better UI responsiveness, use google cdn for libs  -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <link href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/ui-lightness/jquery-ui.css" rel="stylesheet">
+    <script type="text/javascript" src="/static/main.js"></script>
+    
+
+</body>
+</html>

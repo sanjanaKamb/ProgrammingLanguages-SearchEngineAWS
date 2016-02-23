@@ -1,0 +1,43 @@
+
+#########################################################################################
+this folder contains a bottle python app, that is the web server for lab3. 
+
+#########################################################################################
+bottle.py is copied into this directory. bottle is a "singele file" module. 
+just this file here, is enough. bottle apps can import bottle and start using it.
+(alternatively bottle can be installed on the system with pip or into virtual envs ...)
+
+#########################################################################################
+To run the server on a fresh new ubuntu vm (for instance a clean micro instance on amazon)
+a couple other dependencies are needed. To install them: 
+$ sudo apt-get update
+$ sudo apt-get install python-pip
+$ sudo pip install --upgrade google-api-python-client
+$ sudo pip install --upgrade beaker
+
+######################################################################################### **
+######### important note about ports on linux.
+only root user can start listening on tcp ports 0-1024.
+if the webserver must run on port 80 (normally websites on the web use port 80) then
+start the server as root, where domain_name is the server uri such as localhost :
+
+$ sudo webserver.py <domain_name>
+
+alternatively for development, in webserver.py change the port to 8080 and now
+it can be run on localhost with ordinary users
+
+#########################################################################################
+Now the server can be run by (double check which port the server is running 
+on and whether it needs root or not, read above note), where domain_name is the server uri such as localhost:
+
+$ python webserver.py <domain_name>
+
+#########################################################################################
+EC2 instance launching script. All the files to be uploaded to the server must be in csc326 directory:
+
+$ python launch.py
+
+#########################################################################################
+EC2 instance terminating script, where instance_id is print at the end of launch.py:
+
+$ python terminate.py <instance_id>
